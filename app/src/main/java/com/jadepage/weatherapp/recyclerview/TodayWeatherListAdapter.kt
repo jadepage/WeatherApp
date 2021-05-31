@@ -6,49 +6,34 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jadepage.weatherapp.databinding.TodayWeatherItemBinding
-import com.jadepage.weatherapp.models.TodayWeatherModel
+import com.jadepage.weatherapp.models.WeatherModel
 
-class TodayWeatherListAdapter : ListAdapter
-    <TodayWeatherModel, TodayWeatherListAdapter.TodayWeatherViewHolder>(diffUtil) {
+class TodayWeatherListAdapter(
+        private val weather: List<WeatherModel>
+) : RecyclerView.Adapter<TodayWeatherListAdapter.TodayWeatherListViewHolder>(){
 
-    companion object {
-        private val diffUtil = object : DiffUtil.ItemCallback<TodayWeatherModel>() {
-            override fun areItemsTheSame(
-                oldItem: TodayWeatherModel,
-                newItem: TodayWeatherModel
-            ) = true
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodayWeatherListViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = TodayWeatherItemBinding.inflate(layoutInflater, parent, false)
+        return TodayWeatherListViewHolder(binding)
+    }
 
-            override fun areContentsTheSame(
-                oldItem: TodayWeatherModel,
-                newItem: TodayWeatherModel
-            ): Boolean {
-                return oldItem == newItem
+    override fun onBindViewHolder(holder: TodayWeatherListViewHolder, position: Int) {
+        holder.bind(weather[position])
+    }
+
+    override fun getItemCount() = weather.size
+
+    class TodayWeatherListViewHolder(
+            private val binding: TodayWeatherItemBinding
+        ) : RecyclerView.ViewHolder(binding.root) {
+
+            fun bind(weather: WeatherModel) {
+                binding.apply {
+                    weatherTime.text = weather.weather_time
+                    weatherIcon.setImageResource(weather.weather_icon)
+                    weatherTemperature.text = weather.weather_temp
             }
         }
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodayWeatherViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = TodayWeatherItemBinding.inflate(inflater)
-        return TodayWeatherViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: TodayWeatherViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.onBind(item)
-    }
-
-    class TodayWeatherViewHolder(
-        private val binding: TodayWeatherItemBinding
-    ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun onBind(weather: TodayWeatherModel) {
-            binding.apply {
-                weatherTime.text = weather.weather_time
-                weatherIcon.setImageResource(weather.weather_icon)
-            }
-        }
-    }
-
-
 }

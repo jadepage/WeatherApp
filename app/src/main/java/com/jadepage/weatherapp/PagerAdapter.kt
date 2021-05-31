@@ -9,18 +9,14 @@ import com.google.android.material.tabs.TabLayout
 class PagerAdapter(fragmentActivity: FragmentActivity) :
     FragmentStateAdapter(fragmentActivity) {
 
-
     override fun createFragment(position: Int): Fragment {
         when (position){
             0 -> {
                 return TodayWeatherFragment.newInstance(position)
-
-
             }
             1->{
                 return WeekWeatherFragment.newInstance(position)
             }
-
         }
         return TodayWeatherFragment.newInstance(position)
     }
