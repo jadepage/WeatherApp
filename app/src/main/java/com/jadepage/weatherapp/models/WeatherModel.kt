@@ -1,10 +1,12 @@
 package com.jadepage.weatherapp.models
 
-import androidx.annotation.DrawableRes
+import java.util.*
+
 
 data class WeatherModel(
-    val weather_description: String,
-    val weather_time: Int,
-//    @DrawableRes val weather_icon: Int,
-    val weather_temp: Double
+
+    val weather_description: String?,
+//    val weather_timezone: String?,
+    val weather_time: Int?,
+    val weather_temp: Double?
 )

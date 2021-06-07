@@ -2,11 +2,10 @@ package com.jadepage.weatherapp.networking
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.QueryMap
 
 interface WeatherAPI {
 
-    @GET("/")
-    fun getCurrentWeather(): Call<CurrentWeatherList>
-    fun getTimeZone(): Call<TimeZone>
-
+    @GET("onecall")
+    fun getCurrentWeather(): Call<CurrentWeather>
 }
