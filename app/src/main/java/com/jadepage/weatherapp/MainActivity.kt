@@ -21,11 +21,13 @@ class MainActivity : AppCompatActivity() {
 
     // Global variables for user location
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private val LOCATION_PERMISSION_REQ_CODE = 1000;
+    private val LOCATION_PERMISSION_REQ_CODE = 1000
 
+    // Used to initialise user location
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
 
+    // Location model to store the user's location
     private var locationModel : LocationModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,15 +38,22 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         binding.getWeatherBtn.setOnClickListener {
+
+            // Get the user's current location call
             getCurrentLocation()
             binding.apply {
+
+                // Used to test if the user location is working
                 currentTimezone.text = latitude.toString()
                 weatherType.text = longitude.toString()
+
+                // Trying to store this info in a model to be used to make the call to the API
                 locationModel?.latitude = latitude
                 locationModel?.longitude = longitude
             }
         }
 
+        // View Pager 2
         binding.viewPager.adapter = PagerAdapter(this)
         TabLayoutMediator(binding.weatherMenu, binding.viewPager) { tab, position ->
             when (position) {
@@ -59,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         }.attach()
     }
 
+    // Get user's current location function
     private fun getCurrentLocation() {
         // checking location permission
         if (ActivityCompat.checkSelfPermission(this,
